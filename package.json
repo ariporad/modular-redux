@@ -1,0 +1,26 @@
+{
+  "name": "modular-redux",
+  "version": "1.0.0",
+  "description": "A small plugin for Redux to allow allow modules to register their own reducers and action types.",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ariporad/modular-redux.git"
+  },
+  "keywords": [
+    "redux",
+    "modular",
+    "modular-redux",
+    "flux",
+    "modularity"
+  ],
+  "author": "Ari Porad <npm@ariporad.com> (http://github.com/ariporad)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ariporad/modular-redux/issues"
+  },
+  "homepage": "https://github.com/ariporad/modular-redux#readme"
+}
