@@ -1,0 +1,9 @@
+{
+	"stage": 1,
+	"ignore": "**/*.test.js",
+	"env": {
+		"test": {
+			"only": ["**/*.test.js", "**/*.js"]
+		}
+	}
+}

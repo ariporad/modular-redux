@@ -22,7 +22,8 @@ export function setStore(newStore) {
 }
 
 function updateReducer() {
-	store.replaceReducer(combineReducers(reducers));
+	reducer = combineReducers(reducers);
+	store.replaceReducer(reducer);
 }
 
 export function addReducer(key, reducer) {

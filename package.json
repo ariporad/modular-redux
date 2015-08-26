@@ -4,7 +4,14 @@
   "description": "A small plugin for Redux to allow allow modules to register their own reducers and action types.",
   "main": "dist/index.js",
   "scripts": {
-    "test": "mocha"
+    "build": "rimraf dist && mkdirp dist && babel src -d dist",
+    "clean": "rimraf coverage dist",
+    "test": "export NODE_ENV=test && npm run test:style && npm run test:suite",
+    "test:style": "eslint src",
+    "pretest:suite": "export NODE_ENV=test && npm run build",
+    "test:suite": "mocha dist",
+    "pretest:coverage": "npm run pretest:suite",
+    "test:coverage": "export NODE_ENV=test && istanbul cover _mocha -- dist -R spec"
   },
   "repository": {
     "type": "git",
@@ -28,6 +35,10 @@
   },
   "devDependencies": {
     "babel": "^5.8.21",
+    "babel-eslint": "^4.1.0",
+    "eslint": "^1.2.1",
+    "eslint-config-airbnb": "0.0.8",
+    "istanbul": "^0.3.18",
     "mkdirp": "^0.5.1",
     "mocha": "^2.2.5",
     "rimraf": "^2.4.2"
