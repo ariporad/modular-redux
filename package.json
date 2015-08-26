@@ -22,5 +22,14 @@
   "bugs": {
     "url": "https://github.com/ariporad/modular-redux/issues"
   },
-  "homepage": "https://github.com/ariporad/modular-redux#readme"
+  "homepage": "https://github.com/ariporad/modular-redux#readme",
+  "dependencies": {
+    "redux": "^1.0.1"
+  },
+  "devDependencies": {
+    "babel": "^5.8.21",
+    "mkdirp": "^0.5.1",
+    "mocha": "^2.2.5",
+    "rimraf": "^2.4.2"
+  }
 }
