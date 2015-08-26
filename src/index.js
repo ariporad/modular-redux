@@ -5,7 +5,9 @@ let store;
 let reducer = (state, action) => state;
 
 const reducers = {};
-export const types = {};
+const types = {};
+
+export { types, types as actionTypes, types as actions };
 
 export function getReducer() {
   return reducer;
@@ -32,7 +34,9 @@ export function addReducer(key, newReducer) {
 }
 
 export function addType(key, value = key) {
-  cleanKey = key.toUpperCase().replace(' ', '_');
+  if (typeof key !== 'string') throw new Error('key must be a string');
+  if (typeof value !== 'string') throw new Error('value must be a string');
+  const cleanKey = key.toUpperCase().replace(' ', '_');
   if (types[cleanKey]) return types[cleanKey];
   types[cleanKey] = value;
   return value;
