@@ -1,2 +1,8 @@
 src
 coverage
+original.js
+.istanbul.yml
+.eslintrc
+.gitignore
+.babelrc
+node_modules
