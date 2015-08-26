@@ -1,6 +1,5 @@
 {
   "name": "modular-redux",
-  "version": "1.0.0",
   "description": "A small plugin for Redux to allow allow modules to register their own reducers and action types.",
   "main": "dist/index.js",
   "scripts": {
@@ -14,11 +13,12 @@
     "pretest:coverage": "npm run pretest:suite",
     "test:coverage": "export NODE_ENV=test && istanbul cover _mocha -- dist -R spec",
     "posttest:coverage": "npm run coverage:upload",
-    "coverage:upload": "cat ./coverage/lcov.info | coveralls"
+    "coverage:upload": "cat ./coverage/lcov.info | coveralls",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ariporad/modular-redux.git"
+    "url": "https://github.com/ariporad/modular-redux.git"
   },
   "keywords": [
     "redux",
@@ -48,6 +48,7 @@
     "mocha": "^2.2.5",
     "proxyquire": "^1.7.1",
     "rimraf": "^2.4.2",
-    "source-map-support": "^0.3.2"
+    "source-map-support": "^0.3.2",
+    "semantic-release": "^4.3.4"
   }
 }
