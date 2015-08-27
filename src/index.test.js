@@ -96,9 +96,10 @@ describe('modular-redux', () => {
       redux = proxyquire('./index', {});
     });
 
-    it('.types, .actionTypes, and .actions should all be equal', () => {
-      expect(redux.types).to.eql(redux.actionTypes);
-      expect(redux.types).to.eql(redux.actions);
+    it('.types, .actions, .actionTypes, and, .ActionTypes should all be equal', () => {
+      expect(redux.ActionTypes).to.eql(redux.types);
+      expect(redux.ActionTypes).to.eql(redux.actions);
+      expect(redux.ActionTypes).to.eql(redux.actionTypes);
     });
 
     it('should add a property to .types with key when addType is called', () => {
