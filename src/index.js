@@ -61,3 +61,5 @@ export function addType(key, value = key, creator = () => ({ type: value })) {
 }
 
 store = createStore(getReducer());
+
+export * from 'redux';

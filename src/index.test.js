@@ -2,6 +2,7 @@ import 'babel/polyfill';
 import 'source-map-support/register';
 import proxyquire from 'proxyquire';
 import { expect } from 'chai';
+import * as realRedux from 'redux';
 
 proxyquire.noPreserveCache();
 
@@ -156,7 +157,7 @@ describe('modular-redux', () => {
     it('should put the creator on .ActionTypes.<key to camelcase>', () => {
       const creator = () => ({ type: 'something happened', payload: 'OK' });
       redux.addType('something happened', 'something happened', creator);
-      expect(redux.ActionCreators.somethingHappened).to.exist();
+      expect(redux.ActionCreators.somethingHappened).to.exist;
       expect(redux.ActionCreators.somethingHappened).to.eql(creator);
     });
 
@@ -174,5 +175,16 @@ describe('modular-redux', () => {
       redux.addType('FOO_BAR_BAZ', 'qux quux');
       expect(redux.ActionCreators.fooBarBaz()).to.deep.equal({ type: 'qux quux' });
     });
+  });
+
+  it('should export all of redux\'s exports', () => {
+    const redux = proxyquire('./index', {});
+
+    const filterExports = e => e.filter(k => k.charAt(0) !== '_');
+
+    const realReduxExports = filterExports(Object.keys(realRedux));
+    const modularReduxExports = filterExports(Object.keys(redux));
+
+    expect(modularReduxExports).to.include(...realReduxExports);
   });
 });
