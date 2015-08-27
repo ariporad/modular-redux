@@ -39,11 +39,11 @@ redux.addType('BAR', 'BAZ') // The value doesn't have to match the key
 redux.addType('qux quux', 'garply'); // 'qux quux' will be converted to 'QUX_QUUX'
 redux.addType('WALDO', 'fred plugh'); // The value won't be.
 
-// types can be accessed on redux.types:
-console.log(redux.types) // { FOO: 'FOO', BAR:'BAZ', QUX_QUUX: 'garply', 'WALDO': 'fred plugh'}
+// types can be accessed on redux.ActionTypes:
+console.log(redux.ActionTypes) // { FOO: 'FOO', BAR:'BAZ', QUX_QUUX: 'garply', 'WALDO': 'fred plugh'}
 
-// They can also be accessed on redux.actions and redux.actionTypes:
-redux.types === redux.actions === redux.actionTypes // true
+// They can also be accessed on redux.types, redux.actions and redux.actionTypes:
+redux.ActionTypes === redux.types === redux.actions === redux.actionTypes // true
 
 
 // For state shape: { foo: [], 'qux': { 'quux': 0 } }
@@ -63,7 +63,7 @@ addReducer('foo', (state = [], action) => {
 // paths are fine too
 addReducer('qux.quux', (state = 0, action) => {
 	switch (action.type) {
-	case redux.actionTypes.QUX_QUUX:
+	case redux.ActionTypes.QUX_QUUX:
 		return state + action.payload;
 		break;
 	default:
