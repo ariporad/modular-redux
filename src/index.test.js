@@ -108,39 +108,44 @@ describe('modular-redux', () => {
          expect(redux.ActionTypes).to.eql(redux.actionTypes);
        });
 
-    it('should add a property to .types with key when addType is called',
+    it('should add a property to .types with key when addActionType is called',
        () => {
-         redux.addType('ACTION_1', 'ACTION_1');
+         redux.addActionType('ACTION_1', 'ACTION_1');
          expect(redux.types.ACTION_1).to.exist;
        });
 
     it('the value should default to the key', () => {
-      redux.addType('ACTION_1');
+      redux.addActionType('ACTION_1');
       expect(redux.types.ACTION_1).to.eql('ACTION_1');
     });
 
     it('should convert the key to uppercase, and spaces to _s', () => {
-      redux.addType('action 1');
+      redux.addActionType('action 1');
       expect(redux.types.ACTION_1).to.exist;
       expect(redux.types['action 1']).to.not.exist;
     });
 
     it('should convert *not* convert the value to uppercase', () => {
-      redux.addType('action 1');
+      redux.addActionType('action 1');
       expect(redux.types.ACTION_1).to.eql('action 1');
     });
 
     it('should allow completly diffrent keys and values', () => {
-      redux.addType('ACTION_1', 'foo');
+      redux.addActionType('ACTION_1', 'foo');
       expect(redux.types.ACTION_1).to.eql('foo');
     });
 
     it('only allow strings as keys or values', () => {
-      expect(() => redux.addType({ 'foo': 'bar' }, 'baz')).to.throw();
-      expect(() => redux.addType('FOO', 3)).to.throw();
-      expect(() => redux.addType('foo bar', false)).to.throw();
-      expect(() => redux.addType('foo bar baz', null)).to.throw();
+      expect(() => redux.addActionType({ 'foo': 'bar' }, 'baz')).to.throw();
+      expect(() => redux.addActionType('FOO', 3)).to.throw();
+      expect(() => redux.addActionType('foo bar', false)).to.throw();
+      expect(() => redux.addActionType('foo bar baz', null)).to.throw();
     });
+
+    it('should export addActionType as .addType and .ActionType', () => {
+      expect(redux.addActionType).to.eql(redux.addType);
+      expect(redux.addActionType).to.eql(redux.ActionType);
+    })
   });
 
   describe('ActionCreators', () => {
@@ -156,23 +161,23 @@ describe('modular-redux', () => {
 
     it('should put the creator on .ActionTypes.<key to camelcase>', () => {
       const creator = () => ({ type: 'something happened', payload: 'OK' });
-      redux.addType('something happened', 'something happened', creator);
+      redux.addActionType('something happened', 'something happened', creator);
       expect(redux.ActionCreators.somethingHappened).to.exist;
       expect(redux.ActionCreators.somethingHappened).to.eql(creator);
     });
 
-    it('should handle addType(key, constructor)', () => {
+    it('should handle addActionType(key, constructor)', () => {
       const creator = () => ({ type: 'FOO_BAR' });
-      redux.addType('FOO_BAR', creator);
+      redux.addActionType('FOO_BAR', creator);
       expect(redux.ActionTypes.FOO_BAR).to.eql('FOO_BAR');
       expect(redux.ActionCreators.fooBar).to.eql(creator);
     });
 
     it('should default to a creator that returns { type: type }', () => {
-      redux.addType('FOO_BAR');
+      redux.addActionType('FOO_BAR');
       expect(redux.ActionCreators.fooBar()).to.deep.equal({ type: 'FOO_BAR' });
 
-      redux.addType('FOO_BAR_BAZ', 'qux quux');
+      redux.addActionType('FOO_BAR_BAZ', 'qux quux');
       expect(redux.ActionCreators.fooBarBaz()).to.deep.equal({ type: 'qux quux' });
     });
   });

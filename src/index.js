@@ -37,7 +37,7 @@ export function addReducer(key, newReducer) {
   updateReducer();
 }
 
-export function addType(key, value = key, creator = () => ({ type: value })) {
+function addActionType(key, value = key, creator = () => ({ type: value })) {
   let create;
   let val;
   if (typeof key !== 'string') throw new Error('key must be a string');
@@ -59,6 +59,7 @@ export function addType(key, value = key, creator = () => ({ type: value })) {
 
   return create;
 }
+export { addActionType, addActionType as addType, addActionType as ActionType };
 
 store = createStore(getReducer());
 
