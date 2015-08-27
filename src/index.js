@@ -57,7 +57,7 @@ export function addType(key, value = key, creator = () => ({ type: value })) {
   ActionTypes[constKey] = val;
   ActionCreators[createKey] = create;
 
-  return create; // TODO: Test, doc
+  return create;
 }
 
 store = createStore(getReducer());

@@ -13,7 +13,10 @@ function createStore(reducer) {
   return {
     isStore: true,
     replaceReducer: r => {
-      if (typeof r !== 'function') throw new Error('Reducer must be a function');
+      if (typeof r !==
+          'function') {
+        throw new Error('Reducer must be a function');
+      }
       reducers.push(r);
     },
   };
@@ -85,27 +88,30 @@ describe('modular-redux', () => {
       const r = (state, action) => state;
       redux.addReducer('obj.paths.are.cool', r);
       const rs = combinedReducers.pop();
-      expect(() => rs.obj.paths.are.cool).to.not.throw(); // in case it's undefined
+      expect(() => rs.obj.paths.are.cool).to.not.throw(); // in case it's
+                                                          // undefined
       expect(rs.obj.paths.are.cool).to.eql(r);
     });
   });
 
-  describe('action types', () => {
+  describe('ActionTypes', () => {
     let redux;
     beforeEach(() => {
       redux = proxyquire('./index', {});
     });
 
-    it('.types, .actions, .actionTypes, and, .ActionTypes should all be equal', () => {
-      expect(redux.ActionTypes).to.eql(redux.types);
-      expect(redux.ActionTypes).to.eql(redux.actions);
-      expect(redux.ActionTypes).to.eql(redux.actionTypes);
-    });
+    it('.types, .actions, .actionTypes, and, .ActionTypes should all be equal',
+       () => {
+         expect(redux.ActionTypes).to.eql(redux.types);
+         expect(redux.ActionTypes).to.eql(redux.actions);
+         expect(redux.ActionTypes).to.eql(redux.actionTypes);
+       });
 
-    it('should add a property to .types with key when addType is called', () => {
-      redux.addType('ACTION_1', 'ACTION_1');
-      expect(redux.types.ACTION_1).to.exist;
-    });
+    it('should add a property to .types with key when addType is called',
+       () => {
+         redux.addType('ACTION_1', 'ACTION_1');
+         expect(redux.types.ACTION_1).to.exist;
+       });
 
     it('the value should default to the key', () => {
       redux.addType('ACTION_1');
@@ -129,10 +135,44 @@ describe('modular-redux', () => {
     });
 
     it('only allow strings as keys or values', () => {
-      expect(() => redux.addType({ 'foo': 'bar'}, 'baz')).to.throw();
+      expect(() => redux.addType({ 'foo': 'bar' }, 'baz')).to.throw();
       expect(() => redux.addType('FOO', 3)).to.throw();
       expect(() => redux.addType('foo bar', false)).to.throw();
       expect(() => redux.addType('foo bar baz', null)).to.throw();
+    });
+  });
+
+  describe('ActionCreators', () => {
+    let redux;
+    beforeEach(() => {
+      redux = proxyquire('./index', {});
+    });
+
+    it('.ActionCreators, .creators and .create should all be the same', () => {
+      expect(redux.ActionCreators).to.eql(redux.creators);
+      expect(redux.ActionCreators).to.eql(redux.create);
+    });
+
+    it('should put the creator on .ActionTypes.<key to camelcase>', () => {
+      const creator = () => ({ type: 'something happened', payload: 'OK' });
+      redux.addType('something happened', 'something happened', creator);
+      expect(redux.ActionCreators.somethingHappened).to.exist();
+      expect(redux.ActionCreators.somethingHappened).to.eql(creator);
+    });
+
+    it('should handle addType(key, constructor)', () => {
+      const creator = () => ({ type: 'FOO_BAR' });
+      redux.addType('FOO_BAR', creator);
+      expect(redux.ActionTypes.FOO_BAR).to.eql('FOO_BAR');
+      expect(redux.ActionCreators.fooBar).to.eql(creator);
+    });
+
+    it('should default to a creator that returns { type: type }', () => {
+      redux.addType('FOO_BAR');
+      expect(redux.ActionCreators.fooBar()).to.deep.equal({ type: 'FOO_BAR' });
+
+      redux.addType('FOO_BAR_BAZ', 'qux quux');
+      expect(redux.ActionCreators.fooBarBaz()).to.deep.equal({ type: 'qux quux' });
     });
   });
 });
