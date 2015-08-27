@@ -48,12 +48,12 @@ redux.setStore(store);
 redux.getStore() === store; // true
 
 // modular-redux keeps track of your action types, to avoid global-ness at all costs.
-redux.addType('FOO'); // redux.types.FOO now equals FOO
+redux.addActionType('FOO'); // redux.types.FOO now equals FOO
 
-redux.addType('BAR', 'BAZ') // The value doesn't have to match the key
+redux.addActionType('BAR', 'BAZ') // The value doesn't have to match the key
 
-redux.addType('qux quux', 'garply'); // 'qux quux' will be converted to 'QUX_QUUX'
-redux.addType('WALDO', 'fred plugh'); // The value won't be.
+redux.addActionType('qux quux', 'garply'); // 'qux quux' will be converted to 'QUX_QUUX'
+redux.addActionType('WALDO', 'fred plugh'); // The value won't be.
 
 // types can be accessed on redux.ActionTypes:
 console.log(redux.ActionTypes) // { FOO: 'FOO', BAR:'BAZ', QUX_QUUX: 'garply', 'WALDO': 'fred plugh'}
@@ -69,7 +69,7 @@ redux.ActionCreators.quxQuux(); // { type: 'garply' }
 redux.ActionCreators === redux.create === redux.creators // true
 
 // You can also define your own ActionCreator:
-redux.addType('ADD_TODO', (text) => ({ type: redux.ActionTypes.ADD_TODO, text });
+redux.addActionType('ADD_TODO', (text) => ({ type: redux.ActionTypes.ADD_TODO, text });
 redux.create.addTodo('Use modular-redux'); // { type: 'ADD_TODO', text: 'Use modular-redux' }
 
 // For state shape: { foo: [], 'qux': { 'quux': 0 } }
