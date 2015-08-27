@@ -1,7 +1,8 @@
 import 'babel/polyfill';
-import { combineReducers, createStore } from 'redux';
+import { combineReducers, createStore, bindActionCreators } from 'redux';
 import { set as setObj } from 'object-path';
 import camelCase from 'lodash.camelcase';
+import walkObject from './lib/walkObject.js';
 
 let store;
 let reducer = (state, action) => state;
@@ -22,6 +23,18 @@ function updateReducer() {
   store.replaceReducer(reducer);
 }
 
+function updateActionCreator(ActionCreator) {
+  if (typeof ActionCreator !== 'function') return ActionCreator;
+  if (!store.dispatch) return ActionCreator;
+
+  ActionCreator.bound = bindActionCreators(ActionCreator, store.dispatch);
+  return ActionCreator;
+}
+
+function updateActionCreators() {
+  walkObject(ActionCreators, updateActionCreator);
+}
+
 export function getStore() {
   return store;
 }
@@ -29,6 +42,7 @@ export function getStore() {
 export function setStore(newStore) {
   store = newStore;
   updateReducer();
+  updateActionCreators();
   return newStore;
 }
 
@@ -53,6 +67,8 @@ function addActionType(key, value = key, creator = () => ({ type: value })) {
   const constKey = key.toUpperCase().replace(' ', '_');
 
   if (ActionCreators[createKey]) return ActionCreators[createKey];
+
+  create.bound = updateActionCreator(create);
 
   ActionTypes[constKey] = val;
   ActionCreators[createKey] = create;

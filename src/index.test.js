@@ -145,7 +145,7 @@ describe('modular-redux', () => {
     it('should export addActionType as .addType and .ActionType', () => {
       expect(redux.addActionType).to.eql(redux.addType);
       expect(redux.addActionType).to.eql(redux.ActionType);
-    })
+    });
   });
 
   describe('ActionCreators', () => {
@@ -179,6 +179,24 @@ describe('modular-redux', () => {
 
       redux.addActionType('FOO_BAR_BAZ', 'qux quux');
       expect(redux.ActionCreators.fooBarBaz()).to.deep.equal({ type: 'qux quux' });
+    });
+
+    it('each ActionCreator should have a .bound property', () => {
+      redux.addActionType('FOO_BAR_BAZ_QUX');
+      expect(redux.ActionCreators.fooBarBazQux.bound).to.exist;
+
+      const dispatched = [];
+
+      // We need at least 1 reducer or redux complains
+      redux.addReducer('foo', (state = 0, action) => state);
+
+      const store = redux.getStore();
+      store.dispatch = action => dispatched.push(action);
+      redux.setStore(store);
+
+      redux.ActionCreators.fooBarBazQux.bound();
+
+      expect(dispatched[0]).to.deep.equal({ type: 'FOO_BAR_BAZ_QUX' });
     });
   });
 
