@@ -1,5 +1,6 @@
 import 'babel/polyfill';
 import { combineReducers, createStore } from 'redux';
+import { set } from 'object-path';
 
 let store;
 let reducer = (state, action) => state;
@@ -29,7 +30,7 @@ export function setStore(newStore) {
 }
 
 export function addReducer(key, newReducer) {
-  reducers[key] = newReducer;
+  set(reducers, key, newReducer);
   updateReducer();
 }
 

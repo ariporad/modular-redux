@@ -80,6 +80,14 @@ describe('modular-redux', () => {
       redux.setStore(store);
       expect(redux.getStore()).to.eql(store);
     });
+
+    it('should correctly handle object paths', () => {
+      const r = (state, action) => state;
+      redux.addReducer('obj.paths.are.cool', r);
+      const rs = combinedReducers.pop();
+      expect(() => rs.obj.paths.are.cool).to.not.throw(); // in case it's undefined
+      expect(rs.obj.paths.are.cool).to.eql(r);
+    });
   });
 
   describe('action types', () => {
