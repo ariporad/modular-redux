@@ -70,7 +70,10 @@ redux.ActionCreators === redux.create === redux.creators // true
 
 // You can also define your own ActionCreator:
 redux.addActionType('ADD_TODO', (text) => ({ type: redux.ActionTypes.ADD_TODO, text });
-redux.create.addTodo('Use modular-redux'); // { type: 'ADD_TODO', text: 'Use modular-redux' }
+redux.ActionCreators.addTodo('Use modular-redux'); // { type: 'ADD_TODO', text: 'Use modular-redux' }
+
+// There's also a bound version
+redux.create.addTodo.bound('This gets dispatched immediately');
 
 // For state shape: { foo: [], 'qux': { 'quux': 0 } }
 
