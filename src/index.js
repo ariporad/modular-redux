@@ -54,7 +54,7 @@ export function addReducer(key, newReducer) {
 function addActionType(key, value = key, creator = () => ({ type: value })) {
   let create;
   let val;
-  if (typeof key !== 'string') throw new Error('key must be a string');
+  if (typeof key !== 'string') throw new Error('Key must be a string.');
   if (typeof value === 'function') {
     create = value;
     val = key;
@@ -62,7 +62,7 @@ function addActionType(key, value = key, creator = () => ({ type: value })) {
     val = value;
     create = creator;
   }
-  if (typeof val !== 'string') throw new Error('value must be a string');
+  if (typeof val !== 'string') throw new Error('Value must be a string.');
   const createKey = camelCase(key);
   const constKey = key.toUpperCase().replace(' ', '_');
 
